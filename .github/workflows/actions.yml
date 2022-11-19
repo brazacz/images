@@ -24,12 +24,22 @@ jobs:
           curl -o svg/src/stars-ide.svg "https://api.star-history.com/svg?repos=microsoft/vscode,atom/atom,vim/vim,notepad-plus-plus/notepad-plus-plus,JetBrains/intellij-community,emacs-mirror/emacs,apache/netbeans&type=Date"
           curl -o svg/src/stars-web-frameworks.svg "https://api.star-history.com/svg?repos=vuejs/vue,facebook/react,nodejs/node,angular/angular,django/django,pallets/flask,expressjs/express,jquery/jquery&type=Date"
           curl -o svg/src/stars-ssg-all.svg "https://api.star-history.com/svg?repos=vercel/next.js,gohugoio/hugo,gatsbyjs/gatsby,jekyll/jekyll,nuxt/nuxt.js,hexojs/hexo,vuejs/vuepress,mkdocs/mkdocs,getpelican/pelican&type=Date"
-      - name: Convert svg to png
+      - name: Convert svg to other formats
         run: |
-          mkdir -p svg/png
+          mkdir -p svg/{png,png64,png256,png1024,svg,svg256}
           for file in svg/src/*.svg; do
             filename="${file##*/}"
-            rsvg-convert svg/src/$filename -o svg/png/${filename%.*}.png
+            rsvg-convert --dpi-x 300 --dpi-y 300 svg/src/$filename -o svg/png/${filename%.*}.png
+            inkscape svg/src/$filename -l svg/svg/$filename
+            if [[ $filename != stars-* ]]; then
+              rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 64 -h 64 svg/src/$filename -o svg/png64/${filename%.*}.png
+              rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 256 -h 256 svg/src/$filename -o svg/png256/${filename%.*}.png
+              rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 1024 -h 1024 svg/src/$filename -o svg/png1024/${filename%.*}.png
+              rsvg-convert -f svg -a -w 256 -h 256 svg/src/$filename -o svg/svg256/$filename
+            else
+              :
+            fi
+            echo "$file converted"
           done
       - name: Commit and push 
         run: |
