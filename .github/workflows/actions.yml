@@ -17,7 +17,7 @@ jobs:
           convert -version
           rsvg-convert --version
           inkscape --version
-      - name: Download updated svg images
+      - name: Download updated svg images 
         run: |
           curl -o svg/src/stars-relational-db.svg "https://api.star-history.com/svg?repos=postgres/postgres,mysql/mysql-server,MariaDB/server,sqlite/sqlite&type=Date"
           curl -o svg/src/stars-nosql-db.svg "https://api.star-history.com/svg?repos=redis/redis,mongodb/mongo,neo4j/neo4j,apache/cassandra,apache/couchdb,apache/hbase&type=Date"
@@ -26,7 +26,7 @@ jobs:
           curl -o svg/src/stars-ssg-all.svg "https://api.star-history.com/svg?repos=vercel/next.js,gohugoio/hugo,gatsbyjs/gatsby,jekyll/jekyll,nuxt/nuxt.js,hexojs/hexo,vuejs/vuepress,mkdocs/mkdocs,getpelican/pelican&type=Date"
       - name: Convert svg to other formats
         run: |
-          mkdir -p svg/{png,png64,png256,png1024,svg,svg256}
+          mkdir -p svg/{png,png64,png256,png1024,svg}
           for file in svg/src/*.svg; do
             filename="${file##*/}"
             rsvg-convert --dpi-x 300 --dpi-y 300 svg/src/$filename -o svg/png/${filename%.*}.png
@@ -35,7 +35,6 @@ jobs:
               rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 64 -h 64 svg/src/$filename -o svg/png64/${filename%.*}.png
               rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 256 -h 256 svg/src/$filename -o svg/png256/${filename%.*}.png
               rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 1024 -h 1024 svg/src/$filename -o svg/png1024/${filename%.*}.png
-              rsvg-convert -f svg -a -w 256 -h 256 svg/src/$filename -o svg/svg256/$filename
             else
               :
             fi
