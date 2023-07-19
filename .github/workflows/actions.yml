@@ -23,7 +23,7 @@ jobs:
           curl -o svg/src/stars-nosql-db.svg "https://api.star-history.com/svg?repos=redis/redis,mongodb/mongo,neo4j/neo4j,apache/cassandra,apache/couchdb,apache/hbase&type=Date"
           curl -o svg/src/stars-ide.svg "https://api.star-history.com/svg?repos=microsoft/vscode,atom/atom,vim/vim,notepad-plus-plus/notepad-plus-plus,JetBrains/intellij-community,emacs-mirror/emacs,apache/netbeans&type=Date"
           curl -o svg/src/stars-web-frameworks.svg "https://api.star-history.com/svg?repos=vuejs/vue,facebook/react,nodejs/node,angular/angular,django/django,pallets/flask,expressjs/express,jquery/jquery&type=Date"
-          curl -o svg/src/stars-ssg-all.svg "https://api.star-history.com/svg?repos=vercel/next.js,gohugoio/hugo,gatsbyjs/gatsby,jekyll/jekyll,nuxt/nuxt.js,hexojs/hexo,vuejs/vuepress,mkdocs/mkdocs,getpelican/pelican&type=Date"
+          curl -o svg/src/stars-ssg-all.svg "https://api.star-history.com/svg?repos=vercel/next.js,gohugoio/hugo,gatsbyjs/gatsby,jekyll/jekyll,nuxt/nuxt.js,hexojs/hexo,vuejs/vuepress,11ty/eleventy,gridsome/gridsome&type=Date"
       - name: Convert svg to other formats
         run: |
           mkdir -p svg/{png,png64,png256,png1024,svg}
