@@ -12,12 +12,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install dependencies
         run: |
-          sudo add-apt-repository ppa:inkscape.dev/stable-1.1
           sudo apt-get update
-          sudo apt-get install -y curl imagemagick librsvg2-bin inkscape
+          sudo apt-get install -y curl imagemagick librsvg2-bin
           convert -version
           rsvg-convert --version
-          inkscape --version
       - name: Download updated svg images 
         run: |
           curl -o svg/src/stars-relational-db.svg "https://api.star-history.com/svg?repos=postgres/postgres,mysql/mysql-server,MariaDB/server,sqlite/sqlite&type=Date"
@@ -27,11 +25,10 @@ jobs:
           curl -o svg/src/stars-ssg-all.svg "https://api.star-history.com/svg?repos=vercel/next.js,gohugoio/hugo,gatsbyjs/gatsby,jekyll/jekyll,nuxt/nuxt.js,hexojs/hexo,vuejs/vuepress,11ty/eleventy,gridsome/gridsome&type=Date"
       - name: Convert svg to other formats
         run: |
-          mkdir -p svg/{png,png64,png256,png1024,svg}
+          mkdir -p svg/{png,png64,png256,png1024}
           for file in svg/src/*.svg; do
             filename="${file##*/}"
             rsvg-convert --dpi-x 300 --dpi-y 300 svg/src/$filename -o svg/png/${filename%.*}.png
-            inkscape svg/src/$filename -l svg/svg/$filename
             if [[ $filename != stars-* ]]; then
               rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 64 -h 64 svg/src/$filename -o svg/png64/${filename%.*}.png
               rsvg-convert --dpi-x 300 --dpi-y 300 -a -w 256 -h 256 svg/src/$filename -o svg/png256/${filename%.*}.png
